@@ -2,8 +2,11 @@ package com.tinaio.tianapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
+                isNetworkAvailable();
                 CheckUser();
             }
         });
@@ -62,17 +66,34 @@ public class MainActivity extends AppCompatActivity {
                     .method("POST", body)
                     .addHeader("Content-Type", "application/json")
                     .build();
+
             try {
                 Response response = client.newCall(request).execute();
-                if (response.code() == 200)
-                    return;
+                if (response.code() == 200) {
+                    SecondActivity();
+                }
                 else{
                     Intent intent=new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void SecondActivity() {
+        Intent intent = new Intent(MainActivity.this, second.class);
+        startActivity(intent);
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        if (info == null){
+            SecondActivity();
+            return false;
+        }
+        NetworkInfo.State network = info.getState();
+        return (network == NetworkInfo.State.CONNECTED || network == NetworkInfo.State.CONNECTING);
     }
 }
