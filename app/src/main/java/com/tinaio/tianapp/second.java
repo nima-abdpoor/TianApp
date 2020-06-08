@@ -1,44 +1,71 @@
 package com.tinaio.tianapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import com.google.android.material.internal.NavigationMenu;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import io.github.yavski.fabspeeddial.FabSpeedDial;
+import com.tinaio.tianapp.Services.MyServicesFragment;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class second extends AppCompatActivity {
-    FabSpeedDial fabSpeedDial;
+    List<Fragment> fragmentList;
+    ViewPager viewPager;
+    MyPagerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         InitViewItems();
-        InitFloatingactionbtn();
+        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> id = new ArrayList<>();
+        list.add("servic1");
+        list.add("servic2");
+        list.add("servic3");
+        list.add("servic4");
+        list.add("servic5");
+        list.add("servic5\nfasaf");
+        list.add("servic5\nfasaf");
+        list.add("servic5\nfasaf");
+        list.add("servic5\nfasaf");
+        fragmentList = new ArrayList<>();
+        MyServicesFragment fragment = MyServicesFragment.NewInstance(list, id);
+        MyServicesFragment fragment2 = MyServicesFragment.NewInstance(list, id);
+        fragmentList.add(fragment);
+        fragmentList.add(fragment2);
+        adapter=new MyPagerAdapter(getSupportFragmentManager(),fragmentList);
+        viewPager.setAdapter(adapter);
     }
 
     private void InitViewItems() {
-        fabSpeedDial = findViewById(R.id.fab_main_menu);
+        viewPager = findViewById(R.id.view_pager);
     }
 
-    private void InitFloatingactionbtn() {
-        fabSpeedDial.setMenuListener(new FabSpeedDial.MenuListener() {
-            @Override
-            public boolean onPrepareMenu(NavigationMenu navigationMenu) {
-                return true;
-            }
 
-            @Override
-            public boolean onMenuItemSelected(MenuItem menuItem) {
-                return true;
-            }
+}
 
-            @Override
-            public void onMenuClosed() {
+class MyPagerAdapter extends FragmentPagerAdapter {
+    List<Fragment> fragments;
 
-            }
-        });
+    public MyPagerAdapter(FragmentManager fm, List<Fragment> frag) {
+        super(fm);
+        this.fragments = frag;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return fragments.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return fragments.size();
     }
 }

@@ -1,9 +1,5 @@
 package com.tinaio.tianapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,8 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.tinaio.tianapp.login.LoginActivity;
 
@@ -24,15 +21,17 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Thread thread=new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                isNetworkAvailable();
-                CheckUser();
+//                isNetworkAvailable();
+//                CheckUser();
+                SecondActivity();
             }
         });
         thread.start();
@@ -42,15 +41,14 @@ public class MainActivity extends AppCompatActivity {
     private void CheckUser() {
         String content;
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-        String username = pref.getString("Username","-1");
-        String password = pref.getString("Password","-1");
-        Log.i("sdalkfsadjlf",username+password);
-        if (username.equals("-1") || password.equals("-1")){
-            Intent intent=new Intent(MainActivity.this, LoginActivity.class);
+        String username = pref.getString("Username", "-1");
+        String password = pref.getString("Password", "-1");
+        Log.i("sdalkfsadjlf", username + password);
+        if (username.equals("-1") || password.equals("-1")) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
-        }
-        else {
-            StringBuilder sb =new StringBuilder();
+        } else {
+            StringBuilder sb = new StringBuilder();
             sb.append("{\n" +
                     "\"username\":\"")
                     .append(username)
@@ -74,9 +72,8 @@ public class MainActivity extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
                 if (response.code() == 200) {
                     SecondActivity();
-                }
-                else{
-                    Intent intent=new Intent(MainActivity.this, LoginActivity.class);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
             } catch (Exception e) {
@@ -89,10 +86,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, second.class);
         startActivity(intent);
     }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
-        if (info == null){
+        if (info == null) {
             SecondActivity();
             return false;
         }
