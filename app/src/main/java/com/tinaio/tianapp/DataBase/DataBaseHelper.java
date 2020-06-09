@@ -4,10 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +49,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("NAME", name);
         try {
             result = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
-        }
-        catch (SQLException ex){
+        } catch (SQLException ex) {
             ex.getCause();
         }
         sqLiteDatabase.close();
@@ -77,7 +74,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return services;
     }
-    public int GetServicesCount(){
+
+    public int GetServicesCount() {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query(true, TABLE_NAME, ALL_COLUMNS,
                 null, null, null, null, null, null);

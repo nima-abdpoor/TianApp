@@ -1,4 +1,4 @@
-package com.tinaio.tianapp.Services;
+package com.tinaio.tianapp.ServiceManager;
 
 import android.content.Context;
 import android.util.Log;

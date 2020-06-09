@@ -1,4 +1,4 @@
-package com.tinaio.tianapp;
+package com.tinaio.tianapp.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.tinaio.tianapp.R;
 import com.tinaio.tianapp.login.LoginActivity;
 
 import okhttp3.MediaType;

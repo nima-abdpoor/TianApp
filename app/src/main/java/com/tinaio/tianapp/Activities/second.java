@@ -1,7 +1,6 @@
-package com.tinaio.tianapp;
+package com.tinaio.tianapp.Activities;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,8 +9,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.tinaio.tianapp.DataBase.DataBaseHelper;
-import com.tinaio.tianapp.Services.MyServicesFragment;
-import com.tinaio.tianapp.Services.ServiceBuilder;
+import com.tinaio.tianapp.R;
+import com.tinaio.tianapp.ServiceManager.MyServicesFragment;
+import com.tinaio.tianapp.ServiceManager.ServiceBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +39,7 @@ public class second extends AppCompatActivity {
         }
         fragmentList = new ArrayList<>();
         MyServicesFragment fragment = MyServicesFragment.NewInstance(name, id);
+        fragment.Clickable(this);
         fragmentList.add(fragment);
         adapter = new MyPagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
